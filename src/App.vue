@@ -27,7 +27,7 @@ export default {
   methods: {
       fetchAsteroids:function(){
           var apiKey = 'WjNITMO5uO6l4E0HeLKxmwdmF25SdRn4KXcsxDbY';
-          var url = 'http://737798.youcanlearnit.net/neos.json';
+          var url = 'https://737798.youcanlearnit.net/neos.json';
           axios.get(url)
               .then(res => {
                   console.clear();
