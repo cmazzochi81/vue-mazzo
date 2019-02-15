@@ -74,9 +74,6 @@
                     return sortedNeos[0].name;
                 }
             },
-
-      
-
         methods: {
             getCloseApproachDate: function(a){
                 if (a.close_approach_data.length > 0) {
