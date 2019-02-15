@@ -49,7 +49,7 @@ export default {
             var url = 'https://cors-anywhere.herokuapp.com/http://737798.youcanlearnit.net/neos.json';
             axios.get(url)
                 .then(res => {
-                    console.clear();
+                    // console.clear();
                     console.log(res);
                     this.asteroids = res.data.near_earth_objects.slice(0,10);
                     //vm.asteroids = res.data.near_earth_objects.slice(0,10);
@@ -72,7 +72,7 @@ export default {
                  
                   axios.get(url)
                       .then(res =>{
-                          console.clear();
+                          // console.clear();
                           console.log(res);
                           this.imgSrc = res.data.url;
                           this.imgTitle = res.data.title;
@@ -83,14 +83,6 @@ export default {
 </script>
 
 <style>
-/* #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
 
  [v-cloak] {
         display: none;

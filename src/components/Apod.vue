@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import axios from 'axios';
     export default {
     props: ['date'],
     data: function(){
@@ -17,10 +18,10 @@
         imgTitle: ''
         }
     },
-    created: function(){
+    // created: function(){
        
-        this.fetchApod();
-    },
+    //     this.fetchApod();
+    // },
 
     methods:{
             fetchApod: function(){
@@ -34,7 +35,7 @@
             
                 axios.get(url)
                     .then(res => {
-                        console.clear();
+                        // console.clear();
                         console.log(res);
                         this.imgSrc = res.data.url;
                         this.imgTitle = res.data.title;
