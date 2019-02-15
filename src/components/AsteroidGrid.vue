@@ -1,0 +1,151 @@
+<template>
+<div class="card mt-5">
+                    <h2 class="card-header">{{header}}</h2>
+                        
+                    
+                    <transition name="shooting-star">
+                    <div class="m-3" v-cloak v-if="numAsteroids > 0 && showSummary">
+                        <p>showing {{numAsteroids}} items</p>
+                        <p>{{closestObject}} has the shortest miss distance</p>
+                    </div>
+                    </transition>
+
+                    <div class="m-s">
+                        <a href="#" @click="showSummary = !showSummary">Show/hide summary</a>
+
+                    </div>
+
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>Close Approach Date</th>
+                            <th>Miss Distance</th>
+                            <th>Remove</th>
+                        </thead>
+                       
+                                                   
+                                <tbody is="transition-group"  name="neo-list" v-cloak>
+
+                                <tr v-for="(a, index) in asteroids" :key="a.neo_reference_id" :class="{highlight:isMissingData(a)}" >
+                                    <td>{{index + 1}}</td>
+                                    <td>{{a.name}}</td>
+                                    <td>{{getCloseApproachDate(a)}}</td>
+                                    <td>
+                                        <ul v-if="a.close_approach_data.length > 0">
+                                            <li v-for="(value,key) in a.close_approach_data[0].miss_distance">
+                                                {{key}}: {{value}}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td><button @click="remove(index)" class="btn btn-warning">remove</button></td>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                    </table>
+                </div><!--End card-->
+</template>
+
+<script>
+    export default {
+
+        props: ['asteroids', 'header'],
+        data: function(){
+            return{
+                showSummary: true
+            }
+        },
+
+        computed:{
+                numAsteroids:function(){
+                    return this.asteroids.length;
+                },
+
+                closestObject:function(){
+                    var neosHavingData = this.asteroids.filter(function (neo){
+                        return neo.close_approach_data.length > 0;
+                    });
+
+                    var simpleNeos = neosHavingData.map(function (neo){
+                        return {name: neo.name, miles:neo.close_approach_data[0].miss_distance.miles};
+                    });
+
+                    var sortedNeos = simpleNeos.sort(function (a,b) {
+                        return a.miles - b.miles;
+                    });
+                    return sortedNeos[0].name;
+                }
+            },
+
+        created: function(){
+            //this.fetchApod();
+            this.fetchAsteroids();
+        },
+
+        methods: {
+            fetchAsteroids:function(){
+                var apiKey = 'WjNITMO5uO6l4E0HeLKxmwdmF25SdRn4KXcsxDbY';
+                var url = 'http://737798.youcanlearnit.net/neos.json';
+                axios.get(url)
+                    .then(function (res) {
+                        console.clear();
+                        console.log(res);
+                        vm.asteroids = res.data.near_earth_objects.slice(0,10);
+                    });
+            },
+
+            getCloseApproachDate: function(a){
+                if (a.close_approach_data.length > 0) {
+                    return a.close_approach_data[0].close_approach_date;
+                }
+                return 'N/A';
+            },
+
+            remove:function(index){
+                this.$emit('remove', index);
+                // this.asteroids.splice(index,1);
+                // this.asteroids = [];
+            },
+
+            getRowStyle: function(a){
+                if(a.close_approach_data.length == 0){
+                    return {
+                        border: 'solid 3px red',
+                        color:'red'
+
+                    };
+                }
+            },
+            isMissingData: function(a){
+                return a.close_approach_data.length == 0;
+            }
+        }//End methods
+
+    }//End export default
+</script>
+
+<style scoped>
+    .highlight{
+        border: solid 3px red;
+        color: red;
+    }
+
+    .shooting-star-leave-to, .shooting-star-enter{
+        transform:translateX(150px) rotate(30deg);
+        opacity:0;
+    }
+
+    .shooting-star-enter-active, .shooting-star-leave-active{
+        transition: all .5s ease;
+    }
+
+    .neo-list-leave-to, .neo-list-enter{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    .neo-list-enter-active, .neo-list-leave-active{
+        transition:all 1s linear;
+    }
+</style>
