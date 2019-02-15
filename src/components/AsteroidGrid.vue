@@ -1,8 +1,6 @@
 <template>
 <div class="card mt-5">
                     <h2 class="card-header">{{header}}</h2>
-                        
-                    
                     <transition name="shooting-star">
                     <div class="m-3" v-cloak v-if="numAsteroids > 0 && showSummary">
                         <p>showing {{numAsteroids}} items</p>
@@ -33,13 +31,12 @@
                                     <td>{{getCloseApproachDate(a)}}</td>
                                     <td>
                                         <ul v-if="a.close_approach_data.length > 0">
-                                            <li v-for="(value,key) in a.close_approach_data[0].miss_distance">
+                                            <li v-for="(value, key) in a.close_approach_data[0].miss_distance">
                                                 {{key}}: {{value}}
                                             </li>
                                         </ul>
                                     </td>
                                     <td><button @click="remove(index)" class="btn btn-warning">remove</button></td>
-                                    </td>
                                 </tr>
 
                                 </tbody>
@@ -78,23 +75,9 @@
                 }
             },
 
-        created: function(){
-            //this.fetchApod();
-            this.fetchAsteroids();
-        },
+      
 
         methods: {
-            fetchAsteroids:function(){
-                var apiKey = 'WjNITMO5uO6l4E0HeLKxmwdmF25SdRn4KXcsxDbY';
-                var url = 'http://737798.youcanlearnit.net/neos.json';
-                axios.get(url)
-                    .then(function (res) {
-                        console.clear();
-                        console.log(res);
-                        vm.asteroids = res.data.near_earth_objects.slice(0,10);
-                    });
-            },
-
             getCloseApproachDate: function(a){
                 if (a.close_approach_data.length > 0) {
                     return a.close_approach_data[0].close_approach_date;
