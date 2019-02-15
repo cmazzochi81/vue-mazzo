@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-6 col-xl-6">
         <slot name="title"><h3>Untitled</h3></slot>
-        <img width="300" height="200" :src="imgSrc" :title="imgTitle">
+        <img width="300" height="200" :src="imgSrc" :title="imgTitle" v-if="imgSrc">
         <!--<p>{{date || "today"}}</p>-->
         <slot name="caption" :date="date"><p>unkown date</p></slot>
         </div>
@@ -18,10 +18,10 @@ import axios from 'axios';
         imgTitle: ''
         }
     },
-    // created: function(){
+    created: function(){
        
-    //     this.fetchApod();
-    // },
+        this.fetchApod();
+    },
 
     methods:{
             fetchApod: function(){

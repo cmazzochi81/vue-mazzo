@@ -10,9 +10,6 @@
     <p slot="caption" slot-scope="pic">Here's the picture from {{pic.date}}</p>
   </Apod>
   <AsteroidGrid @remove="remove" :asteroids="asteroids" header="Near-Earth Objects"/>
-
-  
-
   </div>
 </template>
 
@@ -24,23 +21,21 @@ import axios from 'axios';
 export default {
     name: 'app',
     components: {
-    // HelloWorld
       AsteroidGrid,
       Apod
-    
     },
     data() {
       return{
         asteroids: [],
-        showSummary:true,
-        imgSrc: '',
-        imgTitle: ''
+        showSummary:true
+        // imgSrc: '',
+        // imgTitle: ''
         }
       
     },
     created: function(){
         this.fetchAsteroids();
-        this.fetchApod();
+        //this.fetchApod();
     },
 
     methods: {
@@ -60,24 +55,24 @@ export default {
             //this.$emit('remove', index);
             this.asteroids.splice(index,1);
             // this.asteroids = [];
-        },
-        fetchApod: function(){
-                  var apiKey = 'WjNITMO5uO6l4E0HeLKxmwdmF25SdRn4KXcsxDbY';
-                  var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
+        }
+        // fetchApod: function(){
+        //           var apiKey = 'WjNITMO5uO6l4E0HeLKxmwdmF25SdRn4KXcsxDbY';
+        //           var url = 'https://api.nasa.gov/planetary/apod?api_key=' + apiKey;
                   
 
-                  if(this.date){
-                      url += '&date=' + this.date;
-                  }
+        //           if(this.date){
+        //               url += '&date=' + this.date;
+        //           }
                  
-                  axios.get(url)
-                      .then(res =>{
-                          // console.clear();
-                          console.log(res);
-                          this.imgSrc = res.data.url;
-                          this.imgTitle = res.data.title;
-                      });
-              }   
+        //           axios.get(url)
+        //               .then(res =>{
+        //                   // console.clear();
+        //                   console.log(res);
+        //                   this.imgSrc = res.data.url;
+        //                   this.imgTitle = res.data.title;
+        //               });
+        //       }   
     }//end methods
 }//end export default
 </script>
